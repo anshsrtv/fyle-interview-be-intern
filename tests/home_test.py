@@ -1,5 +1,3 @@
-from werkzeug.exceptions import HTTPException
-
 def test_validate_request(client):
     """
     fail case: Method not allowed
