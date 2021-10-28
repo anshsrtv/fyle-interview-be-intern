@@ -1,3 +1,13 @@
+def test_get_assignments_without_header(client):
+    response = client.get(
+        '/teacher/assignments'
+    )
+
+    assert response.status_code == 401
+
+    msg = response.json['message']
+
+
 def test_get_assignments_teacher_1(client, h_teacher_1):
     response = client.get(
         '/teacher/assignments',
@@ -39,7 +49,7 @@ def test_grade_assignment_cross(client, h_teacher_2):
         }
     )
 
-    assert response.status_code == 400
+    assert response.status_code == 403
     data = response.json
 
     assert data['error'] == 'FyleError'

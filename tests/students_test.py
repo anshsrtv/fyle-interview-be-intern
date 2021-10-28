@@ -42,6 +42,38 @@ def test_post_assignment_student_1(client, h_student_1):
     assert data['teacher_id'] is None
 
 
+def test_upsert_submitted_assignment_student_1(client, h_student_1):
+    content = 'ABCDEF TESTPOST'
+
+    response = client.post(
+        '/student/assignments',
+        headers=h_student_1,
+        json={
+            'id': 1,
+            'content': content
+        })
+
+    assert response.status_code == 400
+
+
+def test_upsert_draft_assignment_student_1(client, h_student_1):
+    content = 'ABCDEF TESTPOST'
+
+    response = client.post(
+        '/student/assignments',
+        headers=h_student_1,
+        json={
+            'id': 2,
+            'content': content
+        })
+
+    assert response.status_code == 200
+    
+    data = response.json['data']
+    assert data['content'] == content
+    assert data['student_id'] == 1
+
+
 def test_submit_assignment_student_1(client, h_student_1):
     response = client.post(
         '/student/assignments/submit',

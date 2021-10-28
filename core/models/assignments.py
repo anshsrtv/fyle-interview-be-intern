@@ -65,7 +65,7 @@ class Assignment(db.Model):
         assertions.assert_found(assignment, 'No assignment with this id was found')
         assertions.assert_valid(assignment.state == AssignmentStateEnum.SUBMITTED,
                         'only a submitted assignment can be graded')
-        assertions.assert_valid(assignment.teacher_id == principal.teacher_id, 
+        assertions.assert_true(assignment.teacher_id == principal.teacher_id, 
                         'This assignment is submitted to some other teacher')
 
         assignment.grade = grade
@@ -78,7 +78,7 @@ class Assignment(db.Model):
     def submit(cls, _id, teacher_id, principal: Principal):
         assignment = Assignment.get_by_id(_id)
         assertions.assert_found(assignment, 'No assignment with this id was found')
-        assertions.assert_valid(assignment.student_id == principal.student_id, 'This assignment belongs to some other student')
+        assertions.assert_true(assignment.student_id == principal.student_id, 'This assignment belongs to some other student')
         assertions.assert_valid(assignment.state == AssignmentStateEnum.DRAFT,
                                 'only a draft assignment can be submitted')
         assertions.assert_valid(assignment.content is not None, 'assignment with empty content cannot be submitted')
